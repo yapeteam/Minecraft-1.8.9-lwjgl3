@@ -1,5 +1,6 @@
 package org.lwjglx.input;
 
+import net.minecraft.client.Minecraft;
 import org.lwjglx.opengl.Display;
 import org.lwjglx.BufferUtils;
 import org.lwjgl.glfw.GLFWCursorEnterCallback;
@@ -49,6 +50,11 @@ public class Mouse {
 
     public static void pollGLFW(){
         if(!created) return;
+          float sensibility = (Minecraft.getMinecraft().gameSettings.mouseSensitivity) * 0.6F + 0.2F;
+        if(sensibility > 1.0F){
+            sensibility = Math.min(sensibility, 1.0F);
+        }
+        final float fixed = sensibility * sensibility * sensibility * 8.0F;
         glfwSetMouseButtonCallback(Display.getWindow(), new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long l, int i, int i1, int i2) {
@@ -66,8 +72,8 @@ public class Mouse {
                     last_y = poll_yPos;
                     poll_xPos = (int) v;
                     poll_yPos = (int) (Display.getHeight() - v1);
-                    current_dx = (int) ((poll_xPos - last_x) * 6.2);
-                    current_dy = (int) ((poll_yPos - last_y) * 6.2);
+                    current_dx = (int) ((poll_xPos - last_x) * (fixed));
+                    current_dy = (int) ((poll_yPos - last_y) * fixed);
                     pollNeed = true;
                 }
             }
