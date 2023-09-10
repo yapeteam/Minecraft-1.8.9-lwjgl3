@@ -5,7 +5,7 @@ import cn.timer.isense.event.events.EventKey;
 import cn.timer.isense.modules.impl.HUD;
 import cn.timer.isense.modules.impl.Notification;
 import cn.timer.isense.modules.impl.Radar;
-import cn.timer.isense.modules.impl.原神;
+import cn.timer.isense.modules.impl.Test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +23,7 @@ public class ModuleManager {
         registerModule(HUD.class);
         registerModule(Radar.class);
         registerModule(Notification.class);
-        registerModule(原神.class);
+        registerModule(Test.class);
     }
 
     private static final Logger logger = LogManager.getLogger();

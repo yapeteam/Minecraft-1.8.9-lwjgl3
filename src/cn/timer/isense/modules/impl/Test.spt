@@ -20,7 +20,7 @@ VAR height => _result_;
 INS net/minecraft/client/gui/Gui -> drawRect - I,I,I,I,I <- 0,0,width,height,-1;
 
 VAR scale => 4;
-INV fontRenderer : net/minecraft/client/gui/FontRenderer -> getStringWidth - java/lang/String <- "原神";
+INV fontRenderer : net/minecraft/client/gui/FontRenderer -> getStringWidth - java/lang/String <- "Test";
 VAR fw => _result_;
 VIF fh => fontRenderer : net/minecraft/client/gui/FontRenderer -> FONT_HEIGHT;
 CAL fw => fw * scale;
@@ -33,6 +33,6 @@ CAL x => x / scale;
 CAL y => y / scale;
 INS net/minecraft/client/renderer/GlStateManager -> pushMatrix - V <- V;
 INS net/minecraft/client/renderer/GlStateManager -> scale - F,F,F <- scale,scale,scale;
-INV fontRenderer : net/minecraft/client/gui/FontRenderer -> drawString - java/lang/String,F,F,I,Z <- "原神",x,y,0,false;
+INV fontRenderer : net/minecraft/client/gui/FontRenderer -> drawString - java/lang/String,F,F,I,Z <- "Test",x,y,0,false;
 INS net/minecraft/client/renderer/GlStateManager -> popMatrix - V <- V;
 END render2D;

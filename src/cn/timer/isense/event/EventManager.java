@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unused", "unchecked"})
 public class EventManager {
     public static EventManager instance = new EventManager();
     private final ArrayList<Handler> objBus = new ArrayList<>();
@@ -66,10 +66,8 @@ public class EventManager {
 
     private final Logger logger = LogManager.getLogger();
 
-    @SuppressWarnings("ForLoopReplaceableByForEach")
     public void call(Event e) {
-        for (int i = 0; i < objBus.size(); i++) {
-            Handler bus = objBus.get(i);
+        for (Handler bus : objBus) {
             try {
                 Method method = bus.getMethods().get(e.getClass());
                 if (method != null)
@@ -79,8 +77,7 @@ public class EventManager {
                 ex.printStackTrace();
             }
         }
-        for (int i = 0; i < clzBus.size(); i++) {
-            Handler bus = clzBus.get(i);
+        for (Handler bus : clzBus) {
             try {
                 Method method = bus.getMethods().get(e.getClass());
                 if (method != null)
@@ -92,10 +89,9 @@ public class EventManager {
         }
     }
 
-    @SuppressWarnings("InnerClassMayBeStatic")
     @Getter
     @AllArgsConstructor
-    private class Handler {
+    private static class Handler {
         private final Object object;
         Map<Class<? extends Event>, Method> methods;
     }

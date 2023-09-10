@@ -6,9 +6,9 @@ import cn.timer.isense.modules.ScriptModule;
 import cn.timer.isense.script.Util;
 import org.lwjglx.input.Keyboard;
 
-public class 原神 extends ScriptModule {
-    public 原神() {
-        super("原神", Util.readString(原神.class.getResourceAsStream("原神.spt")));
+public class Test extends ScriptModule {
+    public Test() {
+        super("Test", Util.readString(Test.class.getResourceAsStream("Test.spt")));
         setKey(Keyboard.KEY_J);
     }
 
