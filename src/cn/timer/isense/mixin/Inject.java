@@ -5,9 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@SuppressWarnings("unused")
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.METHOD})
-
 public @interface Inject {
     String method() default "None";
 
@@ -19,7 +19,7 @@ public @interface Inject {
 
     Place atPlace() default Place.BEFORE;
 
-    public enum Place {
+    enum Place {
         BEFORE, AFTER
     }
 }
