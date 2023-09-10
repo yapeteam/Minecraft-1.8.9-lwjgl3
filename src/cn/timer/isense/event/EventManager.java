@@ -7,26 +7,27 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @SuppressWarnings({"unused", "unchecked"})
 public class EventManager {
     public static EventManager instance = new EventManager();
-    private final ArrayList<Handler> objBus = new ArrayList<>();
-    private final ArrayList<Handler> clzBus = new ArrayList<>();
+    private final CopyOnWriteArrayList<Handler>
+            objBus = new CopyOnWriteArrayList<>(),
+            clzBus = new CopyOnWriteArrayList<>();
 
     public void register(Object... objs) {
         Arrays.stream(objs)
                 .filter(o -> objBus.stream().noneMatch(b -> b.getObject().equals(o)))
                 .forEach(o -> {
-                            Handler handler = new Handler(o, new HashMap<>());
-                            Arrays.stream(o.getClass().getDeclaredMethods())
-                                    .filter(m -> m.getParameterCount() == 1 && m.isAnnotationPresent(EventTarget.class))
-                                    .forEach(method -> {
-                                        method.setAccessible(true);
+                    Handler handler = new Handler(o, new HashMap<>());
+                    Arrays.stream(o.getClass().getDeclaredMethods())
+                            .filter(m -> m.getParameterCount() == 1 && m.isAnnotationPresent(EventTarget.class))
+                            .forEach(method -> {
+                                method.setAccessible(true);
                                         Class<? extends Event> eventClass = (Class<? extends Event>) method.getParameterTypes()[0];
                                         handler.getMethods().put(eventClass, method);
                                     });
