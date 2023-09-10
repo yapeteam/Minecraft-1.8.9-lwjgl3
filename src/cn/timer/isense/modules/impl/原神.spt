@@ -1,0 +1,38 @@
+BLO init;
+INS net/minecraft/client/Minecraft -> getMinecraft - V <- V;
+VAR minecraft => _result_;
+VIF fontRenderer => minecraft : net/minecraft/client/Minecraft -> fontRendererObj;
+END init;
+
+BLO preUpdate;
+//INV minecraft : net/minecraft/client/Minecraft -> clickMouse - V <- V;
+END preUpdate;
+
+VIS out => java/lang/System -> out;
+
+BLO render2D;
+NEW sr : net/minecraft/client/gui/ScaledResolution - net/minecraft/client/Minecraft <- minecraft;
+INV sr : net/minecraft/client/gui/ScaledResolution -> getScaledWidth - V <- V;
+VAR width => _result_;
+INV sr : net/minecraft/client/gui/ScaledResolution -> getScaledHeight - V <- V;
+VAR height => _result_;
+
+INS net/minecraft/client/gui/Gui -> drawRect - I,I,I,I,I <- 0,0,width,height,-1;
+
+VAR scale => 4;
+INV fontRenderer : net/minecraft/client/gui/FontRenderer -> getStringWidth - java/lang/String <- "原神";
+VAR fw => _result_;
+VIF fh => fontRenderer : net/minecraft/client/gui/FontRenderer -> FONT_HEIGHT;
+CAL fw => fw * scale;
+CAL fh => fh * scale;
+CAL x => width - fw;
+CAL y => height - fh;
+CAL x => x / 2;
+CAL y => y / 2;
+CAL x => x / scale;
+CAL y => y / scale;
+INS net/minecraft/client/renderer/GlStateManager -> pushMatrix - V <- V;
+INS net/minecraft/client/renderer/GlStateManager -> scale - F,F,F <- scale,scale,scale;
+INV fontRenderer : net/minecraft/client/gui/FontRenderer -> drawString - java/lang/String,F,F,I,Z <- "原神",x,y,0,false;
+INS net/minecraft/client/renderer/GlStateManager -> popMatrix - V <- V;
+END render2D;
