@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 public abstract class AbstractModule {
     private final String name, describe;
     private int key = 0;
-    private boolean isEnable;
+    private boolean isEnabled;
     protected final Minecraft mc = Minecraft.getMinecraft();
 
     public AbstractModule(String name) {
@@ -41,26 +41,28 @@ public abstract class AbstractModule {
         return describe;
     }
 
-    public void setEnable(boolean enable) {
-        if (isEnable == enable) return;
-        isEnable = enable;
-        if (isEnable) {
+    public void setEnabled(boolean enabled) {
+        if (isEnabled == enabled) return;
+        isEnabled = enabled;
+        if (isEnabled) {
+            onEnabled();
             EventManager.instance.register(this);
         } else {
+            onDisabled();
             EventManager.instance.unregister(this);
         }
         iSense.instance.getModuleManager().getByClass(Notification.class).
                 add(
-                        new cn.timer.isense.notification.Notification(name.replace(name.charAt(0), String.valueOf(name.charAt(0)).toUpperCase().charAt(0)) + (isEnable ? " enabled" : " disabled"))
+                        new cn.timer.isense.notification.Notification(name.replace(name.charAt(0), String.valueOf(name.charAt(0)).toUpperCase().charAt(0)) + (isEnabled ? " enabled" : " disabled"))
                 );
     }
 
-    public boolean isEnable() {
-        return isEnable;
+    public boolean isEnabled() {
+        return isEnabled;
     }
 
     public void toggle() {
-        setEnable(!isEnable);
+        setEnabled(!isEnabled);
     }
 
     public void setKey(int key) {
@@ -69,5 +71,13 @@ public abstract class AbstractModule {
 
     public int getKey() {
         return key;
+    }
+
+    public void onEnabled() {
+        //...
+    }
+
+    public void onDisabled() {
+        //...
     }
 }

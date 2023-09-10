@@ -109,7 +109,7 @@ public class ShaderUtil {
     }
 
     public ShaderUtil(String fragmentShaderLoc) {
-        this(fragmentShaderLoc, "YolBi/Shaders/vertex.vsh");
+        this(fragmentShaderLoc, "iSense/Shaders/vertex.vsh");
     }
 
 

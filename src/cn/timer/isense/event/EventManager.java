@@ -1,66 +1,67 @@
 package cn.timer.isense.event;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class EventManager {
     public static EventManager instance = new EventManager();
-
-    private final ArrayList<Handle> objBus = new ArrayList<>();
-    private final ArrayList<Handle> clzBus = new ArrayList<>();
-    private final ArrayList<Method> registeredMethod = new ArrayList<>();
+    private final ArrayList<Handler> objBus = new ArrayList<>();
+    private final ArrayList<Handler> clzBus = new ArrayList<>();
 
     public void register(Object... objs) {
-        for (Object obj : objs) {
-            for (Method method : obj.getClass().getDeclaredMethods()) {
-                method.setAccessible(true);
-                if (method.getParameterCount() == 1 && method.isAnnotationPresent(EventTarget.class) && !registeredMethod.contains(method)) {
-                    Class<? extends Event> eventClass = (Class<? extends Event>) method.getParameterTypes()[0];
-                    registeredMethod.add(method);
-                    objBus.add(new Handle(obj, method, eventClass));
-                }
-            }
-        }
+        Arrays.stream(objs)
+                .filter(o -> objBus.stream().noneMatch(b -> b.getObject().equals(o)))
+                .forEach(o -> {
+                            Handler handler = new Handler(o, new HashMap<>());
+                            Arrays.stream(o.getClass().getDeclaredMethods())
+                                    .filter(m -> m.getParameterCount() == 1 && m.isAnnotationPresent(EventTarget.class))
+                                    .forEach(method -> {
+                                        method.setAccessible(true);
+                                        Class<? extends Event> eventClass = (Class<? extends Event>) method.getParameterTypes()[0];
+                                        handler.getMethods().put(eventClass, method);
+                                    });
+                            objBus.add(handler);
+                        }
+                );
     }
 
     public void register(Class<?>... clzs) {
-        for (Class<?> clz : clzs) {
-            for (Method method : clz.getDeclaredMethods()) {
-                method.setAccessible(true);
-                if (method.getParameterCount() == 1 && method.isAnnotationPresent(EventTarget.class) && !registeredMethod.contains(method)) {
-                    Class<? extends Event> eventClass = (Class<? extends Event>) method.getParameterTypes()[0];
-                    registeredMethod.add(method);
-                    clzBus.add(new Handle(null, method, eventClass));
-                }
-            }
-        }
+        Arrays.stream(clzs)
+                .filter(c -> clzBus.stream().noneMatch(b -> b.getMethods().values().toArray(new Method[0])[0].getDeclaringClass() == c))
+                .forEach(c -> {
+                            Handler handler = new Handler(null, new HashMap<>());
+                            Arrays.stream(c.getDeclaredMethods())
+                                    .filter(method -> method.getParameterCount() == 1 && method.isAnnotationPresent(EventTarget.class))
+                                    .forEach(method -> {
+                                        method.setAccessible(true);
+                                        Class<? extends Event> eventClass = (Class<? extends Event>) method.getParameterTypes()[0];
+                                        handler.getMethods().put(eventClass, method);
+                                    });
+                            clzBus.add(handler);
+                        }
+                );
     }
 
     public void unregister(Object... objs) {
-        for (Object obj : objs) {
-            for (int i = 0; i < this.objBus.size(); i++) {
-                if (objBus.get(i).getObject().equals(obj)) {
-                    registeredMethod.remove(objBus.get(i).getMethod());
-                    objBus.remove(objBus.get(i));
-                }
-            }
-        }
+        Arrays.stream(objs)
+                .forEach(o -> objBus.stream().filter(b -> b.getObject().equals(o))
+                        .findFirst().ifPresent(objBus::remove));
     }
 
     public void unregister(Class<?>... clzs) {
-        for (Class<?> clz : clzs) {
-            for (int i = 0; i < clzBus.size(); i++) {
-                if (clzBus.get(i).getClass() == clz) {
-                    registeredMethod.remove(clzBus.get(i).getMethod());
-                    clzBus.remove(clzBus.get(i));
-                }
-            }
-        }
+        Arrays.stream(clzs)
+                .forEach(c -> clzBus.stream().filter(b -> b.getMethods().values().toArray(new Method[0])[0].getDeclaringClass() == c)
+                        .findFirst().ifPresent(clzBus::remove));
     }
 
     private final Logger logger = LogManager.getLogger();
@@ -68,49 +69,34 @@ public class EventManager {
     @SuppressWarnings("ForLoopReplaceableByForEach")
     public void call(Event e) {
         for (int i = 0; i < objBus.size(); i++) {
-            Handle bus = objBus.get(i);
-            if (bus.getEventClass() == e.getClass())
-                try {
-                    bus.getMethod().invoke(bus.getObject(), e);
-                } catch (IllegalAccessException | InvocationTargetException ex) {
-                    logger.error("Failed to call the Method: " + bus.getObject().getClass().getName() + "." + bus.getMethod().getName());
-                    ex.printStackTrace();
-                }
+            Handler bus = objBus.get(i);
+            try {
+                Method method = bus.getMethods().get(e.getClass());
+                if (method != null)
+                    method.invoke(bus.getObject(), e);
+            } catch (IllegalAccessException | InvocationTargetException ex) {
+                logger.error("Failed to call method: " + bus.getObject().getClass().getName() + "." + bus.getMethods().get(e.getClass()).getName());
+                ex.printStackTrace();
+            }
         }
         for (int i = 0; i < clzBus.size(); i++) {
-            Handle bus = clzBus.get(i);
-            if (bus.getEventClass() == e.getClass())
-                try {
-                    bus.getMethod().invoke(bus.getObject(), e);
-                } catch (IllegalAccessException | InvocationTargetException ex) {
-                    logger.error("Failed to call the Method: " + bus.getObject().getClass().getName() + "." + bus.getMethod().getName());
-                    ex.printStackTrace();
-                }
+            Handler bus = clzBus.get(i);
+            try {
+                Method method = bus.getMethods().get(e.getClass());
+                if (method != null)
+                    method.invoke(bus.getObject(), e);
+            } catch (IllegalAccessException | InvocationTargetException ex) {
+                logger.error("Failed to call method: " + bus.getObject().getClass().getName() + "." + bus.getMethods().get(e.getClass()).getName());
+                ex.printStackTrace();
+            }
         }
     }
 
     @SuppressWarnings("InnerClassMayBeStatic")
-    private class Handle {
+    @Getter
+    @AllArgsConstructor
+    private class Handler {
         private final Object object;
-        private final Method method;
-        private final Class<? extends Event> eventClass;
-
-        public Handle(Object object, Method method, Class<? extends Event> eventClass) {
-            this.object = object;
-            this.method = method;
-            this.eventClass = eventClass;
-        }
-
-        public Object getObject() {
-            return object;
-        }
-
-        public Method getMethod() {
-            return method;
-        }
-
-        public Class<? extends Event> getEventClass() {
-            return eventClass;
-        }
+        Map<Class<? extends Event>, Method> methods;
     }
 }

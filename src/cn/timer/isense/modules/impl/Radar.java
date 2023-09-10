@@ -12,14 +12,13 @@ import cn.timer.isense.utils.color.ColorUtils;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import org.lwjglx.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import org.lwjglx.input.Keyboard;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Radar extends AbstractModule {
-
     private final float width;
     private final float height;
     private final float x;

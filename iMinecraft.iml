@@ -6,6 +6,12 @@
       <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/run" />
+      <excludeFolder url="file://$MODULE_DIR$/run/saves/New World/DIM1" />
+      <excludeFolder url="file://$MODULE_DIR$/run/saves/New World/DIM-1" />
+      <excludeFolder url="file://$MODULE_DIR$/run/crash-reports" />
+      <excludeFolder url="file://$MODULE_DIR$/run/resourcepacks" />
+      <excludeFolder url="file://$MODULE_DIR$/run/shaderpacks" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
