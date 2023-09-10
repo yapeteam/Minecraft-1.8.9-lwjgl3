@@ -4,12 +4,9 @@ VAR minecraft => _result_;
 VIF fontRenderer => minecraft : net/minecraft/client/Minecraft -> fontRendererObj;
 END init;
 
-BLO preUpdate;
-//INV minecraft : net/minecraft/client/Minecraft -> clickMouse - V <- V;
-END preUpdate;
-
 VIS out => java/lang/System -> out;
 
+//onRender2D;
 BLO render2D;
 NEW sr : net/minecraft/client/gui/ScaledResolution - net/minecraft/client/Minecraft <- minecraft;
 INV sr : net/minecraft/client/gui/ScaledResolution -> getScaledWidth - V <- V;

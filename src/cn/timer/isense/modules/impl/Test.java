@@ -6,6 +6,9 @@ import cn.timer.isense.modules.ScriptModule;
 import cn.timer.isense.script.Util;
 import org.lwjglx.input.Keyboard;
 
+/**
+ * This is a Script Module, only for test, don't mind.
+ */
 public class Test extends ScriptModule {
     public Test() {
         super("Test", Util.readString(Test.class.getResourceAsStream("Test.spt")));
