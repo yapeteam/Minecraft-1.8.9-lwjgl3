@@ -17,11 +17,9 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Display {
 
     private static final DisplayMode initial_mode;
-    private static DisplayMode current_mode;
-
-    private static String title = "Minecraft 1.8.9";
     private static final long window;
-
+    private static DisplayMode current_mode;
+    private static String title = "Minecraft 1.8.9";
     private static boolean created;
     private static boolean resized;
     private static boolean focused;
@@ -55,6 +53,10 @@ public class Display {
         GL.createCapabilities();
     }
 
+    public static DisplayMode getDisplayMode() {
+        return current_mode;
+    }
+
     public static void setDisplayMode(DisplayMode displayMode) {
         current_mode = displayMode;
         glfwSetWindowSize(window, displayMode.getWidth(), displayMode.getHeight());
@@ -63,10 +65,6 @@ public class Display {
                 (initial_mode.getWidth() - displayMode.getWidth()) / 2,
                 (initial_mode.getHeight() - displayMode.getHeight()) / 2
         );
-    }
-
-    public static DisplayMode getDisplayMode() {
-        return current_mode;
     }
 
     public static void setFullscreen(boolean fullscreen) {
@@ -85,24 +83,34 @@ public class Display {
         glfwSetWindowTitle(window, titleIn);
     }
 
-    public static void setIcon(ByteBuffer[] byteBuffers) {
-        if (true) return;
-        GLFWImage.Buffer imagebf = GLFWImage.malloc(byteBuffers.length);
-        for (int i = 0; i < byteBuffers.length; i++) {
-            ByteBuffer image = byteBuffers[i];
-            int width, heigh;
-            try (MemoryStack stack = MemoryStack.stackPush()) {
-                IntBuffer w = stack.mallocInt(1);
-                IntBuffer h = stack.mallocInt(1);
-                width = w.get();
-                heigh = h.get();
-                GLFWImage imagegl = GLFWImage.malloc();
-                imagegl.set(width, heigh, image);
-                imagebf.put(i, imagegl);
+    public static void setIcon(ByteBuffer[] byteBuffers) {//This read correctly byte buffers
+        GLFWImage.Buffer imagebf = GLFWImage.malloc(2);
+        for (int b = 0; b < byteBuffers.length; b++) {
+            System.out.println("loaded icon index -> " + b);
+
+            ByteBuffer image = byteBuffers[b];
+            System.out.println("Setting icon " + image);
+            int width, height;
+
+            if (b == 0) {
+                width = 16;
+                height = 16;
+            } else {
+                width = 32;
+                height = 32;
             }
+
+            System.out.println("Width: " + width + ", Height: " + height);
+
+            GLFWImage imagegl = GLFWImage.malloc();
+            imagegl.set(width, height, image);
+            imagebf.put(imagegl);
         }
+
         glfwSetWindowIcon(window, imagebf);
+        imagebf.free();
     }
+
 
     public static void setVSyncEnabled(boolean vsyncIn) {
         if (glfwGetCurrentContext() != 0) {
