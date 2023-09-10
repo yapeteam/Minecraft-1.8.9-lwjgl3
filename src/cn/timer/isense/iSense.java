@@ -2,18 +2,16 @@ package cn.timer.isense;
 
 import cn.timer.isense.event.EventManager;
 import cn.timer.isense.modules.ModuleManager;
+import lombok.Getter;
 
 public class iSense {
-    public static iSense instance = new iSense();
-    private static ModuleManager moduleManager;
+    public static final iSense instance = new iSense();
+    @Getter
+    private ModuleManager moduleManager;
 
     public void StartUp() {
-        moduleManager = new ModuleManager();
+        this.moduleManager = new ModuleManager();
         moduleManager.initialize();
         EventManager.instance.register(moduleManager);
-    }
-
-    public ModuleManager getModuleManager() {
-        return moduleManager;
     }
 }

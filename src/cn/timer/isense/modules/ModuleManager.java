@@ -6,6 +6,7 @@ import cn.timer.isense.modules.impl.HUD;
 import cn.timer.isense.modules.impl.Notification;
 import cn.timer.isense.modules.impl.Radar;
 import cn.timer.isense.modules.impl.Test;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class ModuleManager {
+    @Getter
     private final ArrayList<AbstractModule> modules;
 
     public ModuleManager() {
@@ -54,9 +56,5 @@ public class ModuleManager {
         modules.forEach(m -> {
             if (m.getKey() == e.getKey()) m.toggle();
         });
-    }
-
-    public ArrayList<AbstractModule> getModules() {
-        return modules;
     }
 }

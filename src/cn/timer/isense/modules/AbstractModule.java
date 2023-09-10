@@ -3,11 +3,17 @@ package cn.timer.isense.modules;
 import cn.timer.isense.event.EventManager;
 import cn.timer.isense.iSense;
 import cn.timer.isense.modules.impl.Notification;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.client.Minecraft;
 
 public abstract class AbstractModule {
+    @Getter
     private final String name, describe;
+    @Getter
+    @Setter
     private int key = 0;
+    @Getter
     private boolean isEnabled;
     protected final Minecraft mc = Minecraft.getMinecraft();
 
@@ -33,14 +39,6 @@ public abstract class AbstractModule {
         this.key = key;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescribe() {
-        return describe;
-    }
-
     public void setEnabled(boolean enabled) {
         if (isEnabled == enabled) return;
         isEnabled = enabled;
@@ -57,20 +55,9 @@ public abstract class AbstractModule {
                 );
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
-    }
 
     public void toggle() {
         setEnabled(!isEnabled);
-    }
-
-    public void setKey(int key) {
-        this.key = key;
-    }
-
-    public int getKey() {
-        return key;
     }
 
     public void onEnabled() {
