@@ -10,6 +10,11 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Pattern;
 
+/**
+ * Don't mind
+ *
+ * @author TIMER_err
+ */
 public class Compiler {
     private static final Map<Character, Class<?>> baseMap = new HashMap<>();
 
