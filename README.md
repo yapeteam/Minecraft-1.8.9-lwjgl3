@@ -10,7 +10,7 @@ MCP 1.8.9 using lwjgl3
 Some problems:
 ——已知的问题：
 
-Unable to set window Icon
+Unable to set window Icon (debugging)
 ——无法设置窗口图标
 
 If you can fix these bugs, ***please email me at zqq2333@outlook.com***
