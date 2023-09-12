@@ -240,9 +240,9 @@ public class Mouse {
         current_dy = 0;
         return result;
     }
+
     private static int normalize(int input){
-        if(input < 0) return input /-1;
-        return input;
+        return Math.abs(input);//credits to DispatchCode
     }
 
     public static int getDWheel() {
