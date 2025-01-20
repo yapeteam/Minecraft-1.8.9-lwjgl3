@@ -1,10 +1,6 @@
 ### Example user template template
 ### Example user template
 
-# IntelliJ project files
-.idea
-iMinecraft.iml
-out
-gen
-run
-
+/.idea/workspace.xml
+/out
+/run
