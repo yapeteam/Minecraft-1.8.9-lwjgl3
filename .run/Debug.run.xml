@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Debug" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="Start" />
+    <module name="Minecraft-1.8.9-lwjgl3" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="otherlib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/otherlib/lombok.jar!/" />
+      <root url="jar://$PROJECT_DIR$/otherlib/stelix_object_file.jar!/" />
+      <root url="jar://$PROJECT_DIR$/otherlib/sxf.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

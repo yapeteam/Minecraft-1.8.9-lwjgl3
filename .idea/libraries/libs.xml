@@ -1,0 +1,28 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/libraryjavasound-20101123.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/netty-all-4.0.23.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-io-2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jopt-simple-4.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/oshi-core-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpcore-4.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/codecjorbis-20101023.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/gson-2.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/log4j-api-2.0-beta9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-lang3-3.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-logging-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-codec-1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/authlib-1.5.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/guava-17.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/icu4j-core-mojang-51.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/soundsystem-20120107.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/codecwav-20101023.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/log4j-core-2.0-beta9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/netty-1.8.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpclient-4.3.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
