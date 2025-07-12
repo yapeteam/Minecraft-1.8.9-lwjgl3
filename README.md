@@ -18,5 +18,3 @@ If you can fix these bugs, ***please email me at zqq2333@outlook.com***
 ——如果你可以修复这些问题，***请给我发送邮件：zqq2333@outlook.com***
 
 Thanks for help.
-
-***awa***
