@@ -808,7 +808,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         this.mcProfiler.endSection();
         final long l = System.nanoTime();
         this.mcProfiler.startSection("tick");
-        for (int j = 0; j < this.timer.elapsedTicks; ++j) this.runTick();
+        for (int j = 0; j < this.timer.elapsedTicks; ++j) {
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent(net.minecraftforge.fml.common.gameevent.TickEvent.Phase.START));
+            this.runTick();
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent(net.minecraftforge.fml.common.gameevent.TickEvent.Phase.END));
+        }
         this.mcProfiler.endStartSection("preRenderErrors");
         final long i1 = System.nanoTime() - l;
         this.checkGLError("Pre render");
