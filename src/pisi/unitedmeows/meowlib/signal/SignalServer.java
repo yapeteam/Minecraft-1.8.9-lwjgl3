@@ -6,9 +6,8 @@ import pisi.unitedmeows.meowlib.network.server.SocketClient;
 import pisi.unitedmeows.meowlib.network.server.WTcpServer;
 import pisi.unitedmeows.meowlib.network.server.events.DSDataReceived;
 import pisi.unitedmeows.meowlib.random.WRandom;
-import stelix.xfile.SxfDataBlock;
-import stelix.xfile.SxfFile;
-import stelix.xfile.writer.SxfWriter;
+import stelix.xfile.SxfBlockBuilder;
+import stelix.xfile.WriteStyle;
 
 import java.util.Arrays;
 
@@ -17,16 +16,15 @@ public class SignalServer {
     private final WTcpServer tcpServer;
 
     public SignalServer(String appName, double appVersion, CoID appKey) {
-        SxfFile appFile = new SxfFile();
-        SxfDataBlock app = new SxfDataBlock();
-        app.putVar("appName", appName);
-        app.putVar("appVersion", appVersion);
-        app.putVar("appKey", appKey.toString());
-        appFile.put("app", app);
+        SxfBlockBuilder appBlock = SxfBlockBuilder.create();
+        appBlock.variable("appName", appName);
+        appBlock.variable("appVersion", appVersion);
+        appBlock.variable("appKey", appKey.toString());
 
-        SxfWriter writer = new SxfWriter();
-        writer.setWriteType(SxfWriter.WriteType.INLINE);
-        byte[] appData = writer.writeToString(appFile).getBytes();
+        SxfBlockBuilder root = SxfBlockBuilder.create().setStyle(WriteStyle.INLINE);
+        root.variable("app", appBlock);
+
+        byte[] appData = root.toString().getBytes();
 
 
         tcpServer = new WTcpServer(IPAddress.LOOPBACK, WRandom.BASIC.nextInRange(2950, 3100));
