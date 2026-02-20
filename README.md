@@ -14,6 +14,15 @@ This project aims to provide a modern rendering backend for Minecraft 1.8.9 by i
 
 ---
 
+## Build and Run
+
+```bash
+mkdir -p run
+mvn compile exec:exec
+```
+
+---
+
 ## Known Issues
 We are currently working on several improvements. The following issues are known:
 
