@@ -55,9 +55,13 @@ def main():
         sys.exit(1)
 
     # 2. Decompile
-    if MCP_SRC.exists():
+    DONE_SENTINEL = MCP_SRC / '.done'
+    if DONE_SENTINEL.exists():
         print("[1/3] decompile/src/ already exists, skipping decompile.")
     else:
+        # Remove partial output from any previous failed run
+        if MCP_SRC.exists():
+            shutil.rmtree(MCP_SRC)
         print("[1/3] Decompiling Minecraft 1.8.9 (this takes a few minutes)...")
         run(sys.executable, 'runtime/decompile.py',
             '--client', '--norecompile', '--nocopy',

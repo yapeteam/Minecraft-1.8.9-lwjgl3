@@ -662,6 +662,8 @@ def main():
     process_javadoc()
     process_rename()
 
+    # Write sentinel so setup.py knows this run completed fully
+    (SRC_CLIENT / '.done').write_text('ok\n', encoding='utf-8')
     print('\nDecompile complete. Source at:', SRC_CLIENT.relative_to(_HERE))
 
 
