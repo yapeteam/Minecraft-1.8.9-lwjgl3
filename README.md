@@ -33,13 +33,15 @@ This project aims to provide a modern rendering backend for Minecraft 1.8.9 by i
 **1. Clone the repository**
 
 ```bash
-git clone https://github.com/yapeteam/Minecraft-1.8.9-lwjgl3
+git clone https://github.com/yapeteam/minecraft-1.8.9-lwjgl3
 cd Minecraft-1.8.9-lwjgl3
 ```
 
 **2. Copy your Minecraft 1.8.9 client jar**
 
 ```bash
+mkdir decompile/jars
+
 # Linux / macOS
 cp ~/.minecraft/versions/1.8.9/1.8.9.jar decompile/jars/minecraft.jar
 
