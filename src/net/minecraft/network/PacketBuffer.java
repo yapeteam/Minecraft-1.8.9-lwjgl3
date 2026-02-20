@@ -290,7 +290,9 @@ public class PacketBuffer extends ByteBuf
         }
         else
         {
-            String s = new String(this.readBytes(i).array(), Charsets.UTF_8);
+            byte[] abyte = new byte[i];
+            this.readBytes(abyte);
+	    String s = new String(abyte, Charsets.UTF_8);
 
             if (s.length() > maxLength)
             {

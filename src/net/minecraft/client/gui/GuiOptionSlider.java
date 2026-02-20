@@ -90,5 +90,6 @@ public class GuiOptionSlider extends GuiButton
     public void mouseReleased(int mouseX, int mouseY)
     {
         this.dragging = false;
+        Minecraft.getMinecraft().gameSettings.saveOptions();
     }
 }
