@@ -255,20 +255,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
-                <executions>
-                    <!-- Auto-decompile MC source if not yet set up (skip logic is in setup.py) -->
-                    <execution>
-                        <id>mc-decompile-setup</id>
-                        <phase>generate-sources</phase>
-                        <goals><goal>exec</goal></goals>
-                        <configuration>
-                            <executable>${python.cmd}</executable>
-                            <arguments>
-                                <argument>${project.basedir}/setup.py</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
                 <!-- Default config for mvn exec:exec (run the game) -->
                 <configuration>
                     <executable>java</executable>
@@ -298,19 +284,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <!-- OS-specific Python executable name -->
-        <profile>
-            <id>os-windows</id>
-            <activation><os><family>windows</family></os></activation>
-            <properties><python.cmd>python</python.cmd></properties>
-        </profile>
-        <profile>
-            <id>os-unix</id>
-            <activation><os><family>unix</family></os></activation>
-            <properties><python.cmd>python3</python.cmd></properties>
-        </profile>
-    </profiles>
-
 </project>
