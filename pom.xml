@@ -251,32 +251,25 @@
         </resources>
 
         <plugins>
-            <!-- Auto-decompile MC source if not yet set up -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>mc-decompile-setup</id>
-                        <phase>generate-sources</phase>
-                        <goals><goal>run</goal></goals>
-                        <configuration>
-                            <target xmlns:unless="ant:unless">
-                                <available file="${project.basedir}/src/net/minecraft"
-                                           type="dir" property="mc.ready"/>
-                                <exec executable="${python.cmd}" failonerror="true" unless:set="mc.ready">
-                                    <arg value="${project.basedir}/setup.py"/>
-                                </exec>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
+                <executions>
+                    <!-- Auto-decompile MC source if not yet set up (skip logic is in setup.py) -->
+                    <execution>
+                        <id>mc-decompile-setup</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>exec</goal></goals>
+                        <configuration>
+                            <executable>${python.cmd}</executable>
+                            <arguments>
+                                <argument>${project.basedir}/setup.py</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+                <!-- Default config for mvn exec:exec (run the game) -->
                 <configuration>
                     <executable>java</executable>
                     <workingDirectory>${project.basedir}/run</workingDirectory>

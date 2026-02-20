@@ -42,6 +42,12 @@ def copy_normalized(src: Path, dst: Path):
 
 
 def main():
+    # Already set up — skip entirely
+    if MC_SRC.exists():
+        print("src/net/minecraft/ already exists, skipping setup.")
+        print("Delete it to force re-setup.")
+        return
+
     # 1. Check jar
     if not JAR.exists():
         print(f"ERROR: minecraft.jar not found at {JAR.relative_to(SCRIPT_DIR)}")
