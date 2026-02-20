@@ -251,6 +251,28 @@
         </resources>
 
         <plugins>
+            <!-- Auto-decompile MC source if not yet set up -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>mc-decompile-setup</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <target xmlns:unless="ant:unless">
+                                <available file="${project.basedir}/src/net/minecraft"
+                                           type="dir" property="mc.ready"/>
+                                <exec executable="${python.cmd}" failonerror="true" unless:set="mc.ready">
+                                    <arg value="${project.basedir}/setup.py"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -283,5 +305,19 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- OS-specific Python executable name -->
+        <profile>
+            <id>os-windows</id>
+            <activation><os><family>windows</family></os></activation>
+            <properties><python.cmd>python</python.cmd></properties>
+        </profile>
+        <profile>
+            <id>os-unix</id>
+            <activation><os><family>unix</family></os></activation>
+            <properties><python.cmd>python3</python.cmd></properties>
+        </profile>
+    </profiles>
 
 </project>
