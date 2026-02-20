@@ -45,7 +45,7 @@ mkdir run
 
 # Linux / macOS
 cp ~/.minecraft/versions/1.8.9/1.8.9.jar decompile/jars/minecraft.jar
-cp ~/.minecraft/assets run/
+cp -rf ~/.minecraft/assets run/
 
 # Windows
 copy %APPDATA%\.minecraft\versions\1.8.9\1.8.9.jar decompile\jars\minecraft.jar
