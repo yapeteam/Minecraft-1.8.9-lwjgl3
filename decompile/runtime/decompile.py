@@ -496,12 +496,19 @@ def applyastyle():
     if not ASTYLE_CFG.exists():
         print('  Skipped (no astyle.cfg)')
         return
+    # Collect one "dir/*.java" token per unique directory (same approach as
+    # the original MCP).  Using --recursive with a glob literal does not work
+    # when subprocess bypasses the shell, so we expand the directories in
+    # Python instead.
+    dir_patterns = sorted({
+        f'{f.parent}/*.java'
+        for f in SRC_CLIENT.rglob('*.java')
+    })
     run([
         'astyle',
         '--suffix=none', '--quiet',
         f'--options={ASTYLE_CFG}',
-        '--recursive',
-        f'{SRC_CLIENT}/*.java',
+        *dir_patterns,
     ])
 
 
