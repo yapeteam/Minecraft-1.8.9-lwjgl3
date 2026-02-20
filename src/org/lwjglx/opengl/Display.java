@@ -184,7 +184,7 @@ public class Display {
     }
 
     public static void releaseContext() {
-        glfwSetWindowShouldClose(window, true);
+        glfwMakeContextCurrent(0);
     }
 
     public static void create() throws LWJGLException {

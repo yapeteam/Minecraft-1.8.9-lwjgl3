@@ -241,8 +241,16 @@ public class Mouse {
         return result;
     }
 
+    public static boolean isGrabbed() {
+        return isGrabbed;
+    }
+
+    public static void destroy() {
+        // no-op: resources managed by Display lifecycle
+    }
+
     private static int normalize(int input){
-        return Math.abs(input);//credits to DispatchCode
+        return input;
     }
 
     public static int getDWheel() {

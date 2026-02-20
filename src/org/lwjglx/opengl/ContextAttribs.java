@@ -32,7 +32,7 @@ public class ContextAttribs {
     }
 
     public ContextAttribs withDebug(boolean b) {
-        this.debug = debug;
+        this.debug = b;
         return this;
     }
 }
