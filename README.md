@@ -41,12 +41,15 @@ cd Minecraft-1.8.9-lwjgl3
 
 ```bash
 mkdir decompile/jars
+mkdir run
 
 # Linux / macOS
 cp ~/.minecraft/versions/1.8.9/1.8.9.jar decompile/jars/minecraft.jar
+cp ~/.minecraft/assets run/
 
 # Windows
 copy %APPDATA%\.minecraft\versions\1.8.9\1.8.9.jar decompile\jars\minecraft.jar
+copy %APPDATA%\.minecraft\assets run\
 ```
 
 **3. Build** — decompile and patch run automatically on first build
@@ -58,7 +61,6 @@ mvn compile
 **4. Run**
 
 ```bash
-mkdir -p run
 mvn compile exec:exec
 ```
 
