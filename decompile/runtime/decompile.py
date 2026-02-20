@@ -496,16 +496,13 @@ def applyastyle():
     if not ASTYLE_CFG.exists():
         print('  Skipped (no astyle.cfg)')
         return
-    try:
-        run([
-            'astyle',
-            '--suffix=none', '--quiet',
-            f'--options={ASTYLE_CFG}',
-            '--recursive',
-            f'{SRC_CLIENT}/*.java',
-        ])
-    except (FileNotFoundError, subprocess.CalledProcessError) as e:
-        print(f'  WARNING: astyle failed ({e}); skipping reformatting')
+    run([
+        'astyle',
+        '--suffix=none', '--quiet',
+        f'--options={ASTYLE_CFG}',
+        '--recursive',
+        f'{SRC_CLIENT}/*.java',
+    ])
 
 
 def process_javadoc():
@@ -525,8 +522,8 @@ def process_javadoc():
             if int(row['side']) in (0, 2) and row.get('desc'):
                 fields[row['searge']] = row['desc'].replace('*/', '* /')
 
-    re_field  = re.compile(r'^(?P<indent>    |\t)(?:[\w$.[\]]+ )*(?P<name>field_[0-9]+_[a-zA-Z_]+) *(?:=|;)')
-    re_method = re.compile(r'^(?P<indent>    |\t)(?:[\w$.[\]]+ )*(?P<name>func_[0-9]+_[a-zA-Z_]+)\(')
+    re_field  = re.compile(r'^(?P<indent>[ \t]+)(?:[\w$.[\]]+ )*(?P<name>field_[0-9]+_[a-zA-Z_]+) *(?:=|;)')
+    re_method = re.compile(r'^(?P<indent>[ \t]+)(?:[\w$.[\]]+ )*(?P<name>func_[0-9]+_[a-zA-Z_]+)\(')
     wrapper   = TextWrapper(width=120)
     added     = 0
 
@@ -633,6 +630,14 @@ def main():
     if not MC_JAR.exists():
         print(f'ERROR: {MC_JAR.relative_to(_HERE)} not found.', file=sys.stderr)
         print('Copy your Minecraft 1.8.9 jar to decompile/jars/minecraft.jar', file=sys.stderr)
+        sys.exit(1)
+
+    if shutil.which('astyle') is None:
+        print('ERROR: astyle is not installed or not on PATH.', file=sys.stderr)
+        print('  Linux (Arch):   sudo pacman -S astyle', file=sys.stderr)
+        print('  Linux (Debian): sudo apt install astyle', file=sys.stderr)
+        print('  macOS:          brew install astyle', file=sys.stderr)
+        print('  Windows:        https://astyle.sourceforge.net/', file=sys.stderr)
         sys.exit(1)
 
     createsrgs()

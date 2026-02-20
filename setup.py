@@ -69,7 +69,15 @@ def main():
 
     # 4. Apply patches
     print("[3/3] Applying patches...")
-    run('git', 'apply', '--whitespace=nowarn', str(PATCH))
+    try:
+        run('git', 'apply', '--whitespace=nowarn', str(PATCH))
+    except subprocess.CalledProcessError:
+        # Roll back the partial copy so the next run retries from scratch
+        if MC_SRC.exists():
+            shutil.rmtree(MC_SRC)
+        print("\nERROR: git apply failed. Partial source has been removed.", file=sys.stderr)
+        print("Ensure astyle is installed and decompile/src/ is clean, then retry.", file=sys.stderr)
+        sys.exit(1)
 
     print("\nDone. Run: mvn compile")
 

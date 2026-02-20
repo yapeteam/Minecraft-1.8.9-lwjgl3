@@ -28,7 +28,7 @@ This project aims to provide a modern rendering backend for Minecraft 1.8.9 by i
 | Maven | any | Must be on `PATH` |
 | Python | 3.8+ | Must be on `PATH` as `python3` (Linux/macOS) or `python` (Windows) |
 | Git | any | Required to clone and apply patches |
-| `astyle` | any | Source formatter — optional, decompile succeeds without it |
+| `astyle` | any | Source formatter — **required** for consistent code formatting |
 
 Install `astyle`:
 - **Linux (Arch):** `sudo pacman -S astyle`
